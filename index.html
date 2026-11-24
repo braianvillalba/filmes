@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>The Chosen | Temporada 6</title>
+
+<style>
+:root {
+    --bg: #090909;
+    --surface: #151515;
+    --surface2: #202020;
+    --text: #c5c5c5;
+    --muted: #858585;
+    --gold: #c6a66b;
+    --white: #f1f1f1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    height: 75px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(9,9,9,.96);
+    border-bottom: 1px solid #252525;
+}
+
+.logo {
+    color: var(--white);
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--muted);
+    margin-left: 25px;
+    font-size: 13px;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: var(--gold);
+}
+
+/* HERO */
+
+.hero {
+    padding: 55px 7% 30px;
+    background:
+    linear-gradient(to bottom, rgba(9,9,9,.45), var(--bg)),
+    url("https://image.tmdb.org/t/p/original/REEMPLAZAR_IMAGEN.jpg")
+    center/cover no-repeat;
+}
+
+.season-label {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    color: var(--white);
+    font-size: clamp(30px, 5vw, 55px);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    max-width: 650px;
+    color: #aaa;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* PLAYER SECTION */
+
+.container {
+    padding: 35px 7%;
+}
+
+.section-title {
+    color: var(--white);
+    font-size: 19px;
+    margin-bottom: 22px;
+    font-weight: 500;
+}
+
+.player-wrapper {
+    width: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #292929;
+    box-shadow: 0 15px 45px rgba(0,0,0,.4);
+}
+
+video {
+    display: block;
+    width: 100%;
+    max-height: 650px;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+.episode-info {
+    padding: 22px 5px 10px;
+}
+
+.episode-number {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.episode-info h2 {
+    color: var(--white);
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.episode-info p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 850px;
+}
+
+/* EPISODES */
+
+.episodes-section {
+    padding: 35px 7% 60px;
+}
+
+.episodes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 23px;
+}
+
+.episodes-header small {
+    color: var(--muted);
+}
+
+.episode-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 5px 3px 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #151515;
+}
+
+.episode-card {
+    min-width: 260px;
+    max-width: 260px;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: transform .3s, opacity .3s;
+    opacity: .7;
+}
+
+.episode-card:hover {
+    transform: translateY(-5px);
+    opacity: 1;
+}
+
+.episode-card.active {
+    opacity: 1;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #29251f, #111);
+    border: 2px solid transparent;
+}
+
+.episode-card.active .thumbnail {
+    border-color: var(--gold);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumbnail .play-icon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,.12);
+    font-size: 35px;
+    color: white;
+    opacity: 0;
+    transition: .3s;
+}
+
+.episode-card:hover .play-icon,
+.episode-card.active .play-icon {
+    opacity: 1;
+}
+
+.card-info {
+    padding: 12px 3px;
+}
+
+.card-info small {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.card-info h3 {
+    color: var(--white);
+    font-size: 15px;
+    margin-top: 7px;
+}
+
+/* DONATION */
+
+.donation {
+    margin: 10px 7% 65px;
+    padding: 55px 25px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #191919, #101010);
+    border: 1px solid #292929;
+}
+
+.donation h2 {
+    color: var(--white);
+    font-size: 27px;
+    margin-bottom: 15px;
+}
+
+.donation p {
+    max-width: 570px;
+    margin: 0 auto 25px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.donation-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--gold);
+    color: #111;
+    padding: 14px 30px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: .3s;
+}
+
+.donation-btn:hover {
+    background: #e2c58d;
+    transform: translateY(-3px);
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid #252525;
+    padding: 25px 7%;
+    text-align: center;
+    color: #606060;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 700px) {
+    header {
+        height: 65px;
+        padding: 0 5%;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    nav a {
+        margin-left: 10px;
+        font-size: 11px;
+    }
+
+    .hero {
+        padding: 45px 5% 30px;
+    }
+
+    .container,
+    .episodes-section {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .episode-card {
+        min-width: 220px;
+        max-width: 220px;
+    }
+
+    .episode-info h2 {
+        font-size: 21px;
+    }
+
+    .donation {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 40px 20px;
+    }
+
+    .donation h2 {
+        font-size: 23px;
+    }
+}
+
+@media(max-width: 380px) {
+    nav a {
+        margin-left: 6px;
+        font-size: 10px;
+    }
+
+    .episode-card {
+        min-width: 190px;
+        max-width: 190px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+    <div class="logo">THE <span>CHOSEN</span></div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#episodios">Episodios</a>
+        <a href="#donar">Donar</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="inicio">
+    <div class="season-label">UNA HISTORIA QUE CAMBIÓ EL MUNDO</div>
+    <h1>THE CHOSEN</h1>
+    <p>
+        Temporada 6. La hora ha llegado.
+        Acompaña los acontecimientos de las últimas horas
+        de Jesús a través de los ojos de quienes lo aman
+        y de quienes lo condenan.
+    </p>
+</section>
+
+<!-- SECTION 1: PLAYER -->
+
+<section class="container">
+
+    <h2 class="section-title">Reproduciendo ahora</h2>
+
+    <div class="player-wrapper">
+        <video id="videoPlayer"
+               controls
+               playsinline
+               preload="metadata">
+            <source src="ep1.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+        </video>
+    </div>
+
+    <div class="episode-info">
+        <div class="episode-number" id="episodeNumber">
+            TEMPORADA 6 · EPISODIO 1
+        </div>
+
+        <h2 id="episodeTitle">Episodio 1</h2>
+
+        <p id="episodeDescription">
+            Comienza un nuevo capítulo de esta historia.
+            La tensión aumenta mientras los acontecimientos
+            que cambiarán el destino de todos comienzan a desarrollarse.
+        </p>
+    </div>
+
+</section>
+
+<!-- SECTION 2: EPISODES -->
+
+<section class="episodes-section" id="episodios">
+
+    <div class="episodes-header">
+        <h2 class="section-title">Todos los episodios</h2>
+        <small>Temporada 6</small>
+    </div>
+
+    <div class="episode-list" id="episodeList">
+        <!-- Se generan mediante JavaScript -->
+    </div>
+
+</section>
+
+<!-- SECTION 3: DONATION -->
+
+<section class="donation" id="donar">
+
+    <h2>Apoya este proyecto</h2>
+
+    <p>
+        Si disfrutas de este espacio y quieres ayudarme
+        a mantenerlo disponible, puedes realizar una
+        pequeña contribución. Cada aporte es de gran ayuda.
+    </p>
+
+    <a href="https://link.mercadopago.com.ar/TUUSUARIO"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="donation-btn">
+        ♥ HACER UNA DONACIÓN
+    </a>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+    THE CHOSEN · TEMPORADA 6
+    <br>
+    Proyecto independiente creado por un fan.
+    <br>
+    The Chosen es propiedad de sus respectivos titulares.
+    Este sitio no es oficial ni está afiliado a 5&2 Studios.
+</footer>
+
+<script>
+
+/* CONFIGURACIÓN DE EPISODIOS */
+
+const episodes = [
+    {
+        number: 1,
+        title: "Episodio 1",
+        video: "ep1.mp4",
+        image: "",
+        description:
+        "Las últimas horas de Jesús comienzan a desarrollarse. " +
+        "Los acontecimientos en Jerusalén preparan el camino " +
+        "hacia un momento que cambiará la historia."
+    },
+
+    {
+        number: 2,
+        title: "Episodio 2",
+        video: "ep2.mp4",
+        image: "",
+        description:
+        "La historia continúa. Los discípulos enfrentan " +
+        "momentos decisivos mientras el destino de Jesús " +
+        "se acerca a su desenlace."
+    },
+
+    {
+        number: 3,
+        title: "Episodio 3",
+        video: "ep3.mp4",
+        image: "",
+        description:
+        "La tensión crece en Jerusalén. Las decisiones " +
+        "de quienes rodean a Jesús comienzan a revelar " +
+        "el verdadero significado de estos acontecimientos."
+    },
+
+    {
+        number: 4,
+        title: "Episodio 4",
+        video: "ep4.mp4",
+        image: "",
+        description:
+        "La historia avanza hacia uno de sus momentos " +
+        "más intensos. La fe, el sacrificio y la esperanza " +
+        "se encuentran en el centro de este capítulo."
+    }
+];
+
+/* REFERENCIAS */
+
+const player = document.getElementById("videoPlayer");
+const title = document.getElementById("episodeTitle");
+const description = document.getElementById("episodeDescription");
+const number = document.getElementById("episodeNumber");
+const episodeList = document.getElementById("episodeList");
+
+/* CREAR TARJETAS */
+
+function renderEpisodes() {
+
+    episodeList.innerHTML = "";
+
+    episodes.forEach((episode, index) => {
+
+        const card = document.createElement("article");
+
+        card.className = "episode-card";
+
+        card.innerHTML = `
+            <div class="thumbnail">
+
+                ${episode.image
+                    ? `<img src="${episode.image}" alt="${episode.title}" loading="lazy">`
+                    : `<div style="
+                        width:100%;
+                        height:100%;
+                        display:grid;
+                        place-items:center;
+                        color:#c6a66b;
+                        font-size:32px;
+                    ">THE CHOSEN</div>`
+                }
+
+                <div class="play-icon">▶</div>
+
+            </div>
+
+            <div class="card-info">
+                <small>EPISODIO ${episode.number}</small>
+                <h3>${episode.title}</h3>
+            </div>
+        `;
+
+        card.addEventListener("click", () => {
+            changeEpisode(index);
+        });
+
+        episodeList.appendChild(card);
+
+    });
+
+}
+
+/* CAMBIAR EPISODIO */
+
+function changeEpisode(index) {
+
+    const episode = episodes[index];
+
+    player.pause();
+
+    player.src = episode.video;
+    player.load();
+
+    title.textContent = episode.title;
+
+    description.textContent = episode.description;
+
+    number.textContent =
+        `TEMPORADA 6 · EPISODIO ${episode.number}`;
+
+    document.querySelectorAll(".episode-card")
+        .forEach((card, i) => {
+            card.classList.toggle("active", i === index);
+        });
+
+    // Desplazar el carrusel al episodio seleccionado
+    const selectedCard = episodeList.children[index];
+
+    if (selectedCard) {
+        selectedCard.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+        });
+    }
+
+    // Volver al reproductor
+    document.querySelector(".player-wrapper")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+}
+
+/* INICIAR */
+
+renderEpisodes();
+changeEpisode(0);
+
+</script>
+
+</body>
+</html>
